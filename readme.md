@@ -1,4 +1,4 @@
-# JWT Implementation with Spring Boot 3 and Spring Security 6
+# JWT Implementation with Spring Boot 4 and Spring Security 7
 
 This repository showcases a project that demonstrates the implementation of JSON Web Tokens (JWT) with Spring Boot 3 and Spring Security 6. The project includes the following functionalities:
 
@@ -10,7 +10,7 @@ This repository showcases a project that demonstrates the implementation of JSON
 
 # Technologies
 
-- Spring Boot 3.1
+- Spring Boot 4.0.1
 - Spring Security
 - Spring Data JPA
 - Spring Boot custom Validation
