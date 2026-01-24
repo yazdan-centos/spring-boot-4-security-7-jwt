@@ -287,12 +287,6 @@ Run the test suite:
 ```bash
 mvn test
 ```
-## User registration endpoint
-
-`POST http://localhost:8086/api/v1/auth/register`
-
-![register](register.PNG)
-
 
 ## 📝 License
 
