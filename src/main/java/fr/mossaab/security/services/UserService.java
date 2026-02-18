@@ -2,6 +2,7 @@ package fr.mossaab.security.services;
 
 import fr.mossaab.security.dtos.UserDto;
 import fr.mossaab.security.entities.User;
+import fr.mossaab.security.mappers.UserMapper;
 import fr.mossaab.security.repository.UserRepository;
 import fr.mossaab.security.searchForms.UserSearchForm;
 import fr.mossaab.security.specifications.UserSpecification;

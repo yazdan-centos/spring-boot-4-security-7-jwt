@@ -1,0 +1,41 @@
+# Application APIs
+
+## User APIs
+
+### Create User
+- **Endpoint**: POST /api/users
+- **Authorization**: ADMIN
+- **Request Body**: UserDto
+- **Response**: Created UserDto
+
+### Update User
+- **Endpoint**: PUT /api/users/{id}
+- **Authorization**: ADMIN
+- **Request Body**: UserDto
+- **Response**: Updated UserDto
+
+### Delete User
+- **Endpoint**: DELETE /api/users/{id}
+- **Authorization**: ADMIN
+- **Response**: No Content
+
+### Search Users
+- **Endpoint**: GET /api/users
+- **Authorization**: ADMIN
+- **Query Parameters**:
+  - page (default: 0)
+  - size (default: 10)
+  - sortBy (default: id)
+  - order (default: ASC)
+- **Response**: Page<UserDto>
+
+### Export Users to Excel
+- **Endpoint**: GET /api/users/export
+- **Authorization**: ADMIN
+- **Response**: Excel File
+
+### Import Users from Excel
+- **Endpoint**: POST /api/users/import
+- **Authorization**: ADMIN
+- **Request**: Multipart File
+- **Response**: Created
