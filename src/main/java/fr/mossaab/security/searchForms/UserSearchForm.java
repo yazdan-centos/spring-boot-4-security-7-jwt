@@ -1,0 +1,11 @@
+package fr.mossaab.security.searchForms;
+
+import lombok.Data;
+
+@Data
+public class UserSearchForm {
+    private String firstName;
+    private String lastName;
+    private String email;
+    private Boolean enabled;
+}
