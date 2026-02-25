@@ -1,4 +1,5 @@
 package com.mapnaom.foodapp.controllers;
+import com.mapnaom.foodapp.exceptions.ExcelProcessingException;
 
 import com.mapnaom.foodapp.dtos.UserDto;
 import com.mapnaom.foodapp.searchForms.UserSearchForm;
@@ -65,7 +66,7 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/import")
-    public ResponseEntity<Void> importUsersFromExcel(@RequestParam("file") MultipartFile file) throws IOException, ExcelUtil.ExcelProcessingException {
+    public ResponseEntity<Void> importUsersFromExcel(@RequestParam("file") MultipartFile file) throws IOException, ExcelProcessingException {
         userService.importUsersFromExcel(file);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

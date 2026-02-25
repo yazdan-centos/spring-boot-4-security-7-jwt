@@ -1,4 +1,5 @@
 package com.mapnaom.foodapp.services;
+import com.mapnaom.foodapp.exceptions.ExcelProcessingException;
 
 import com.mapnaom.foodapp.dtos.UserDto;
 import com.mapnaom.foodapp.entities.User;
@@ -83,7 +84,7 @@ public class UserService {
         }
     }
 
-    public void importUsersFromExcel(MultipartFile file) throws IOException, ExcelUtil.ExcelProcessingException {
+    public void importUsersFromExcel(MultipartFile file) throws IOException, ExcelProcessingException {
         List<User> users = excelUtil.processExcel(file, User.class);
         userRepository.saveAll(users);
     }

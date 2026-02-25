@@ -1,4 +1,5 @@
 package com.mapnaom.foodapp.services;
+import com.mapnaom.foodapp.exceptions.ExcelProcessingException;
 
 import com.github.eloyzone.jalalicalendar.DateConverter;
 import com.github.eloyzone.jalalicalendar.JalaliDate;
@@ -417,7 +418,7 @@ public class DailyMealService {
         return dateConverter.jalaliToGregorian(year, month, day);
     }
 
-    private void handleExcelProcessingException(ExcelUtil.ExcelProcessingException e,
+    private void handleExcelProcessingException(ExcelProcessingException e,
                                                 List<String> errors) {
         errors.add("Excel processing failed: %s".formatted(e.getMessage()));
         if (e.getErrors() != null) {
