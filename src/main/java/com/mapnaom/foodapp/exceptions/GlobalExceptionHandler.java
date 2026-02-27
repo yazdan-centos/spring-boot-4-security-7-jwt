@@ -137,7 +137,29 @@ public class GlobalExceptionHandler {
         return createErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(InvalidUsernameOrPasswordException.class)
+    public ResponseEntity<Map<String, Object>> handleInvalidUsernameOrPasswordException(InvalidUsernameOrPasswordException ex) {
+        logger.error("Invalid username or password exception: {}", ex.getMessage(), ex);
+        return createErrorResponse("Invalid username or password", HttpStatus.UNAUTHORIZED);
+    }
 
+    @ExceptionHandler(InvalidTokenException.class)
+    public ResponseEntity<Map<String, Object>> handleInvalidTokenException(InvalidTokenException ex) {
+        logger.error("Invalid token exception: {}", ex.getMessage(), ex);
+        return createErrorResponse("Invalid token", HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(ExpiredTokenException.class)
+    public ResponseEntity<Map<String, Object>> handleExpiredTokenException(ExpiredTokenException ex) {
+        logger.error("Expired token exception: {}", ex.getMessage(), ex);
+        return createErrorResponse("Token has expired", HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(DisabledUserException.class)
+    public ResponseEntity<Map<String, Object>> handleDisabledUserException(DisabledUserException ex) {
+        logger.error("Disabled user exception: {}", ex.getMessage(), ex);
+        return createErrorResponse("User account is disabled", HttpStatus.FORBIDDEN);
+    }
 
     private ResponseEntity<Map<String, Object>> createErrorResponse(String message, HttpStatus status) {
         Map<String, Object> errorDetails = new HashMap<>();

@@ -23,6 +23,10 @@ public class RegisterRequest {
     @NotBlank(message = "email is required")
     @Email(message = "email format is not valid")
     private String email;
+
+    @NotBlank(message = "username is required")
+    private String username;
+
     @NotBlank(message = "password is required")
     @StrongPassword
     private String password;

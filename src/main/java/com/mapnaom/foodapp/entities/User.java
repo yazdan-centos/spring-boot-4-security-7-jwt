@@ -30,6 +30,10 @@ public class User implements UserDetails { // make our app User a spring securit
     private String firstname;
     private String lastname;
     private String email;
+
+    @Column(unique = true)
+    private String username;
+
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -48,7 +52,7 @@ public class User implements UserDetails { // make our app User a spring securit
 
     @Override
     public String getUsername() {
-        return email;
+        return username;
     }
 
     @Override

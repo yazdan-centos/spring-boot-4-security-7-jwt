@@ -418,15 +418,4 @@ public class DailyMealService {
         return dateConverter.jalaliToGregorian(year, month, day);
     }
 
-    private void handleExcelProcessingException(ExcelProcessingException e,
-                                                List<String> errors) {
-        errors.add("Excel processing failed: %s".formatted(e.getMessage()));
-        if (e.getErrors() != null) {
-            e.getErrors().forEach(error ->
-                    errors.add(String.format("Row %d: %s",
-                            error.getRowNumber(), error.getMessage()))
-            );
-        }
-    }
-
 }

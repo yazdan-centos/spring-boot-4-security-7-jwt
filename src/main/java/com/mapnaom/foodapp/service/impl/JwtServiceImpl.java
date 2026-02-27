@@ -1,5 +1,6 @@
 package com.mapnaom.foodapp.service.impl;
 
+import com.mapnaom.foodapp.entities.User;
 import com.mapnaom.foodapp.service.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -87,6 +88,11 @@ public class JwtServiceImpl implements JwtService {
                 .httpOnly(true)
                 .maxAge(0)
                 .build();
+    }
+
+    @Override
+    public Object getExpirationTime(User user) {
+                return new Date(System.currentTimeMillis() + jwtExpiration);
     }
 
     private String buildToken(

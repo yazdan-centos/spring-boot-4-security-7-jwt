@@ -1,5 +1,6 @@
 package com.mapnaom.foodapp.service;
 
+import com.mapnaom.foodapp.entities.User;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,4 +14,6 @@ public interface JwtService {
     ResponseCookie generateJwtCookie(String jwt);
     String getJwtFromCookies(HttpServletRequest request);
     ResponseCookie getCleanJwtCookie();
+
+    Object getExpirationTime(User user);
 }

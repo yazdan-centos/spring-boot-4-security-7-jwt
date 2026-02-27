@@ -67,7 +67,11 @@ public class UserController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/import")
     public ResponseEntity<Void> importUsersFromExcel(@RequestParam("file") MultipartFile file) throws IOException, ExcelProcessingException {
-        userService.importUsersFromExcel(file);
+        try {
+            userService.importUsersFromExcel(file);
+        } catch (ExcelUtil.ExcelProcessingException e) {
+            throw new RuntimeException(e);
+        }
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

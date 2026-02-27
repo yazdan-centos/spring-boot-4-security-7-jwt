@@ -1,6 +1,8 @@
 package com.mapnaom.foodapp.service.impl;
 
 import com.mapnaom.foodapp.enums.TokenType;
+import com.mapnaom.foodapp.exceptions.DisabledUserException;
+import com.mapnaom.foodapp.exceptions.InvalidUsernameOrPasswordException;
 import com.mapnaom.foodapp.payload.request.AuthenticationRequest;
 import com.mapnaom.foodapp.payload.request.RegisterRequest;
 import com.mapnaom.foodapp.payload.response.AuthenticationResponse;
@@ -10,8 +12,6 @@ import com.mapnaom.foodapp.entities.User;
 import com.mapnaom.foodapp.repository.UserRepository;
 import com.mapnaom.foodapp.service.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final UserRepository userRepository;
-    private final AuthenticationManager authenticationManager;
     private final RefreshTokenService refreshTokenService;
     @Override
     public AuthenticationResponse register(RegisterRequest request) {
@@ -34,6 +33,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())
                 .email(request.getEmail())
+                .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(request.getRole())
                 .build();
@@ -49,6 +49,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return AuthenticationResponse.builder()
                 .accessToken(jwt)
                 .email(user.getEmail())
+                .username(user.getUsername())
                 .id(user.getId())
                 .refreshToken(refreshToken.getToken())
                 .roles(roles)
@@ -58,23 +59,35 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(),request.getPassword()));
+        var user = userRepository.findByUsername(request.getUsername())
+                .orElseThrow(() -> new InvalidUsernameOrPasswordException("Invalid username or password."));
 
-        var user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new IllegalArgumentException("Invalid email or password."));
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new InvalidUsernameOrPasswordException("Invalid username or password.");
+        }
+
+        if (!user.isEnabled()) {
+            throw new DisabledUserException("User account is disabled.");
+        }
+
         var roles = user.getRole().getAuthorities()
                 .stream()
                 .map(SimpleGrantedAuthority::getAuthority)
                 .toList();
+
         var jwt = jwtService.generateToken(user);
         var refreshToken = refreshTokenService.createRefreshToken(user.getId());
+        var expiresIn = jwtService.getExpirationTime(user); // Assuming JwtService has a method to calculate expiration time
+
         return AuthenticationResponse.builder()
                 .accessToken(jwt)
                 .roles(roles)
                 .email(user.getEmail())
+                .username(user.getUsername())
                 .id(user.getId())
                 .refreshToken(refreshToken.getToken())
-                .tokenType( TokenType.BEARER.name())
+                .tokenType(TokenType.BEARER.name())
+                .expiresIn((Long) expiresIn)
                 .build();
     }
 }

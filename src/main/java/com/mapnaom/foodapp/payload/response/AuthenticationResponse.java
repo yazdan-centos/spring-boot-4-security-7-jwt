@@ -15,6 +15,7 @@ import java.util.List;
 public class AuthenticationResponse {
     private  Long id;
     private String email;
+    private String username;
     private List<String> roles;
 
     @JsonProperty("access_token")
@@ -23,5 +24,6 @@ public class AuthenticationResponse {
     private String refreshToken;
     @JsonProperty("token_type")
     private String tokenType;
-
+    @JsonProperty("expires_in")
+    private Long expiresIn;
 }

@@ -2,6 +2,8 @@ package com.mapnaom.foodapp;
 
 
 
+import com.mapnaom.foodapp.entities.User;
+import com.mapnaom.foodapp.enums.Role;
 import com.mapnaom.foodapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -26,6 +28,7 @@ public class UserMockDataLoader {
                                 .firstname("Admin")
                                 .lastname("User")
                                 .email("admin@example.com")
+                                .username("admin")
                                 .password(passwordEncoder.encode("admin1234"))
                                 .role(Role.ADMIN)
                                 .build(),
@@ -33,6 +36,7 @@ public class UserMockDataLoader {
                                 .firstname("Regular")
                                 .lastname("User")
                                 .email("user@example.com")
+                                .username("user")
                                 .password(passwordEncoder.encode("user1234"))
                                 .role(Role.USER)
                                 .build()
@@ -43,4 +47,3 @@ public class UserMockDataLoader {
         };
     }
 }
-

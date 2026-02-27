@@ -84,7 +84,7 @@ public class UserService {
         }
     }
 
-    public void importUsersFromExcel(MultipartFile file) throws IOException, ExcelProcessingException {
+    public void importUsersFromExcel(MultipartFile file) throws IOException, ExcelUtil.ExcelProcessingException {
         List<User> users = excelUtil.processExcel(file, User.class);
         userRepository.saveAll(users);
     }
